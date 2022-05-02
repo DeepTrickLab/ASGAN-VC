@@ -1,0 +1,62 @@
+## Training
+
+cd Autoformer; python train.py --model_name=AutoVC  --save_model_name=autovc_128_vctk
+cd Autoformer; python train.py --model_name=AutoVC2 --save_model_name=autovc2_128_vctk --is_adain=True
+cd Autoformer; python train.py --model_name=AutoVC3 --save_model_name=autovc3_128_vctk --is_adain=True
+
+cd Autoformer; python train_with_gan.py --model_name=AutoVC --save_model_name=autovc_gan_128_vctk
+cd Autoformer; python train_with_gan.py --model_name=AutoVC2 --save_model_name=autovc2_gan_128_vctk  --is_adain=True
+cd Autoformer; python train_with_gan.py --model_name=AutoVC3 --save_model_name=autovc3_gan_128_vctk  --is_adain=True
+
+cd Autoformer; python train_with_sn_gan.py --model_name=AutoVC --save_model_name=autovc_sngan_128_vctk
+cd Autoformer; python train_with_sn_gan.py --model_name=AutoVC2 --save_model_name=autovc2_sngan_128_vctk  --is_adain=True
+cd Autoformer; python train_with_sn_gan.py --model_name=AutoVC3 --save_model_name=autovc3_sngan_128_vctk  --is_adain=True
+
+cd Autoformer; python train_with_bigan.py --model_name=AutoVC --save_model_name=autovc_bigan_128_vctk
+cd Autoformer; python train_with_bigan.py --model_name=AutoVC2 --save_model_name=autovc2_bigan_128_vctk  --is_adain=True
+cd Autoformer; python train_with_bigan.py --model_name=AutoVC3 --save_model_name=autovc3_bigan_128_vctk  --is_adain=True
+
+cd Autoformer; python train_with_bi_sn_gan.py --model_name=AutoVC --save_model_name=autovc_bisngan_128_vctk
+cd Autoformer; python train_with_bi_sn_gan.py --model_name=AutoVC2 --save_model_name=autovc2_bisngan_128_vctk  --is_adain=True
+cd Autoformer; python train_with_bi_sn_gan.py --model_name=AutoVC3 --save_model_name=autovc3_bisngan_128_vctk  --is_adain=True
+
+
+cd Autoformer; python train.py --model_name=MetaVC  --save_model_name=metavc_128_vctk
+cd Autoformer; python train.py --model_name=MetaVC2 --save_model_name=metavc2_128_vctk --is_adain=True
+cd Autoformer; python train.py --model_name=MetaVC3 --save_model_name=metavc3_128_vctk --is_adain=True
+
+cd Autoformer; python train_with_gan.py --model_name=MetaVC --save_model_name=metavc_gan_128_vctk
+cd Autoformer; python train_with_gan.py --model_name=MetaVC2 --save_model_name=metavc2_gan_128_vctk --is_adain=True
+cd Autoformer; python train_with_gan.py --model_name=MetaVC3 --save_model_name=metavc3_gan_128_vctk --is_adain=True
+
+cd Autoformer; python train_with_sn_gan.py --model_name=MetaVC --save_model_name=metavc_sngan_128_vctk
+cd Autoformer; python train_with_sn_gan.py --model_name=MetaVC2 --save_model_name=metavc2_sngan_128_vctk --is_adain=True
+cd Autoformer; python train_with_sn_gan.py --model_name=MetaVC3 --save_model_name=metavc3_sngan_128_vctk --is_adain=True
+
+
+
+## Evaluate
+cd Autoformer; python evaluate_convert.py --model_name=AutoVC  --pt_name=autovc_128_vctk --is_adain=False
+cd Autoformer; python evaluate_convert.py --model_name=AutoVC2  --pt_name=autovc2_128_vctk --is_adain=True
+cd Autoformer; python evaluate_convert.py --model_name=AutoVC3  --pt_name=autovc3_128_vctk --is_adain=True
+
+cd Autoformer; python evaluate_convert.py --model_name=MetaVC  --pt_name=metavc_128_vctk  --is_adain=False
+cd Autoformer; python evaluate_convert.py --model_name=MetaVC2 --pt_name=metavc2_128_vctk --is_adain=True
+cd Autoformer; python evaluate_convert.py --model_name=MetaVC3 --pt_name=metavc3_128_vctk --is_adain=True
+
+## Evaluate convert
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC  --pt_name=autovc_128_vctk
+cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC2  --pt_name=autovc2_128_vctk --is_adain=True
+cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC3  --pt_name=autovc3_128_vctk --is_adain=True
+
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC  --pt_name=autovc_gan_128_vctk
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC2  --pt_name=autovc2_gan_128_vctk --is_adain=True
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC3  --pt_name=autovc3_gan_128_vctk --is_adain=True
+
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC  --pt_name=autovc_sngan_128_vctk
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC2  --pt_name=autovc2_sngan_128_vctk --is_adain=True
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC3  --pt_name=autovc3_sngan_128_vctk --is_adain=True
+
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC  --pt_name=autovc_bigan_128_vctk
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC2  --pt_name=autovc2_bigan_128_vctk --is_adain=True
+export TF_XLA_FLAGS=--tf_xla_enable_xla_devices; cd Autoformer; python evaluate_convert_with_thirdparty.py --model_name=AutoVC3  --pt_name=autovc3_bigan_128_vctk --is_adain=True
