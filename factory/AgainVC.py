@@ -1,3 +1,14 @@
+"""
+@inproceedings{chen2021again,
+  title={Again-vc: A one-shot voice conversion using activation guidance and adaptive instance normalization},
+  author={Chen, Yen-Hao and Wu, Da-Yi and Wu, Tsung-Han and Lee, Hung-yi},
+  booktitle={ICASSP 2021-2021 IEEE International Conference on Acoustics, Speech and Signal Processing (ICASSP)},
+  pages={5954--5958},
+  year={2021},
+  organization={IEEE}
+}
+"""
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F

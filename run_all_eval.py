@@ -4,9 +4,6 @@ MODEL = [
     "AutoVC",
     "AutoVC2",
     "AutoVC3",
-    "MetaVC",
-    "MetaVC2",
-    "MetaVC3",
 ]
 PT_NAME = [
     "autovc_128_vctk",
@@ -18,15 +15,9 @@ PT_NAME = [
     "autovc_sngan_128_vctk",
     "autovc2_sngan_128_vctk",
     "autovc3_sngan_128_vctk",
-    "metavc_128_vctk",
-    "metacv2_128_vctk",
-    "metavc3_128_vctk",
-    "metavc_gan_128_vctk",
-    "metavc2_gan_128_vctk",
-    "metavc3_gan_128_vctk",
-    "metavc_sngan_128_vctk",
-    "metavc2_sngan_128_vctk",
-    "metavc3_sngan_128_vctk",
+    "autovc_bigan_128_vctk",
+    "autovc2_bigan_128_vctk",
+    "autovc3_bigan_128_vctk",
 ]
 
 for pt_name in PT_NAME:

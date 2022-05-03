@@ -1,3 +1,12 @@
+"""
+@article{wu2020vqvc+,
+  title={Vqvc+: One-shot voice conversion by vector quantization and u-net architecture},
+  author={Wu, Da-Yi and Chen, Yen-Hao and Lee, Hung-Yi},
+  journal={arXiv preprint arXiv:2006.04154},
+  year={2020}
+}
+"""
+
 import torch
 from torch import nn
 from torch.nn import functional as F
