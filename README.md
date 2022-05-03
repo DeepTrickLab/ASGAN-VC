@@ -35,17 +35,15 @@ We use MelGan pre-trained model(multi_speaker.pt) to generate waveform from mel,
        - model
          - static
            - model.pt
-       - make_data
-          - factory
-          - wavs
-              - 225 (include many audio data)
-              - 226
-              - ...
-              - ...
-          - make_metadata.ipynb
-          - make_spec.ipynb
+       - wavs
+            - 225 (include many audio data)
+            - 226
+            - ...
+            - ...
+        - make_metadata.ipynb
+        - make_spec.ipynb
 
-- After that you will get a ./spmel (default name) folder and a train.pkl, move ./spmel to root dir.
+- After that you will get a ./spmel (default name) folder with a train.pkl inside.
 
 ### Training
 
@@ -72,7 +70,7 @@ We use MelGan pre-trained model(multi_speaker.pt) to generate waveform from mel,
     --is_adain:bool, is this VC structure has adain, defalut is False
     --is_validate: bool, validate while training, defalut is False
 
-#### Example Script
+#### Example
 
-    python train.py --model_name=AutoVC --save_model_name=model_name --data_dir=spmel -
+    python train.py --model_name=AutoVC --save_model_name=model_name --data_dir=spmel
 
