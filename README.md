@@ -1,16 +1,33 @@
-# Autoformer
+# MetaVC
 
-## Speaker Embedding
+## Speaker Embedding 
 
-Train your own Speaker Embedding [here](https://github.com/licaiwang/d-vector) or use my [pre-trained model](https://drive.google.com/file/d/1-KY9H9JAiZwhi3xoJjmxJ4hVIBE4mG4p/view?usp=sharing) with LstmDV
+### For VC training
 
-The pre-trained model is trained by 913 speaker with 53 utterances , Download the dataset from [openSLR train-clean-360.tar.gz](https://www.openslr.org/12) and ignore the speaker wich utterances number is lower than 50, the model performance is test with 40 speaker from VCTK dataset.
+Train your own Speaker Embedding [here](https://github.com/licaiwang/d-vector) or use my pre-trained model [here](https://drive.google.com/file/d/1nF-nq4vb3PGOFp04iN2IC8jKVFeGCE5I/view?usp=sharing) with MetaDV
+
+### For VC Evaluate
+
+The pre-trained model is trained by 913 speaker with 53 utterances , Download the dataset from [openSLR train-clean-360.tar.gz](https://www.openslr.org/12) and ignore the speaker wich utterances number is lower than 50, the model performance is test with 80 speaker and each speaker has 100 utterence, we random select 16 utterence for making real emdding and remain 84 for evaluate; you can download our pre-trained model [here](https://drive.google.com/file/d/1WfJOhK0vFHKlZXZ66by142efYlDxq3jW/view?usp=sharing)
 
 | Model | LstmDV | MetaDV |
 | ----- | ------ | ------ |
-| EER   | 3%     | 2%     |
+| EER   | 8.68%  |      |
+| AUC   | 97.05% |     |
 
-## Data Prepare
+### For VC Evaluate with thirdparty
+
+We use deep-speaker with their ResCNN Softmax+Triplet pre-trained model for Evaluate, althought it is an Unofficial Tensorflow/Keras implementation, but it reproduce the performance as the [paper](https://arxiv.org/pdf/1705.02304.pdf) claim, for more detail please check in their [repo](https://github.com/philipperemy/deep-speaker).
+
+
+## Vocoder 
+ 
+We use MelGan pre-trained model(multi_speaker.pt) to generate waveform from mel, for more detail please check their [official repo](https://github.com/descriptinc/melgan-neurips)
+
+
+## VC Model
+
+### Data Prepare
 
 - Put your Speaker Embedding model in ./model/static/model.pt
 - Run make_spec.ipynb and make_metadata.ipynb with the data as following format.
@@ -28,27 +45,34 @@ The pre-trained model is trained by 913 speaker with 53 utterances , Download th
           - make_metadata.ipynb
           - make_spec.ipynb
 
-- After that you will get a ./spmel (default name) folder and a train.pkl, copy ./spmel to root dir.
+- After that you will get a ./spmel (default name) folder and a train.pkl, move ./spmel to root dir.
 
-## Training
+### Training
 
-### Available Model
+#### Available Model
 
 - AutoVC  (Original Implement)
 - AutoVC2 (Original Implement + Adain)
 - AutoVC3 (Original Implement + Modulated Conv)
-- MetaVC  (Use MLPMixer and Metaformer)
-- MetaVC2 (Use MLPMixer and Metaformer + Adain)
-- MetaVC3 (Use MLPMixer and Metaformer + Modulated Conv)
 
-### For Original Training
+#### Available Taining Method
 
-    python train.py --model_name=AutoVC --data_dir=spmel --save_model_name=model_name
+- Original
+- GAN
+- BiGAN
+- SNGAN
 
-### For Training with GAN
+#### Training Config
 
-    python train_with_gan.py --model_name=AutoVC --data_dir=spmel --save_model_name=model_name
+    --model_name:str, VC structure from factory
+    --save_model_name: str, name of saving model after training 
+    --data_dir:str, your training dir path 
+    --method:str, training method from trainer,defalut is Original
+    --device:str, defalut is cuda:0
+    --is_adain:bool, is this VC structure has adain, defalut is False
+    --is_validate: bool, validate while training, defalut is False
 
-### For Training with StarGan
+#### Example Script
 
-    python train_with_stargan.py --model_name=AutoVC --data_dir=spmel --save_model_name=model_name
+    python train.py --model_name=AutoVC --save_model_name=model_name --data_dir=spmel -
+
