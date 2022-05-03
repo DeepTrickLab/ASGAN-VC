@@ -1,6 +1,7 @@
 .ipynb_checkpoints
 .vs
 __pycache__
+play_ground.ipynb
 *.wav
 *.pt
 *.zip
