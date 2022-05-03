@@ -63,7 +63,7 @@ class MetaDV(nn.Module):
     For Gan Training Use
     """
 
-    def __init__(self, num_classes, crop_len):
+    def __init__(self, num_classes, crop_len=256):
         super(MetaDV, self).__init__()
         self.metablock = MetaBlock(num_classes, crop_len)
 

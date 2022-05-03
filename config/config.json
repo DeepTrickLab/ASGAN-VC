@@ -18,6 +18,11 @@
     "lambda_cd": 1,
     "lambda_dis": 1,
     "lambda_cls": 0.1,
+    "GAN_embedder": "MetaDV",
+    "GAN_embedder_path": "model/static/metadv_vctk80.pth",
+    "embedder": "LstmDV",
+    "embedder_speaker_num": 913,
+    "embedder_path": "model/static/dv_en_openslr.pth",
     "pick_speaker": [
         "p225",
         "p226",

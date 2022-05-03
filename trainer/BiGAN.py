@@ -1,28 +1,19 @@
 # -*- coding: utf-8 -*-
-import argparse
+
 import csv
 import datetime
 import importlib
-import json
 import os
-import pickle
 import time
 
-import numpy as np
 import torch
 import torch.nn.functional as F
-from sklearn.metrics import auc
-from torch.backends import cudnn
-
 from factory.Discriminator import Discriminator
-from factory.MetaDV import MetaDV
-from util.data_loader import get_loader
-from util.evaluate import Evaluator
 
 
 class Solver(object):
     """
-    AutoVC + Gan
+    AutoVC + BiGan
     """
 
     def __init__(self, vcc_loader, config):
@@ -51,7 +42,7 @@ class Solver(object):
         self.validation_step = config.validation_step
         self.num_valid = config.num_valid
         self.scheduler_step = config.scheduler_step
-        self.pretrained_embedder_path = "model/static/metadv_vctk80.pth"
+        self.C = config.GAN_embedder
 
         # Miscellaneous.
         self.use_cuda = torch.cuda.is_available()
@@ -77,8 +68,6 @@ class Solver(object):
         self.VC.to(self.device)
 
         # 拿來分類轉換後聲音的，算 speaker embedding 之間的 cos-similiarty 或 MSE
-        self.C = MetaDV(self.num_speaker, 256)
-        print(f"Load Pretrained Embedder from --- {self.pretrained_embedder_path}")
         self.C.load_state_dict(
             torch.load(self.pretrained_embedder_path, map_location=self.device)
         )
@@ -289,7 +278,7 @@ class Solver(object):
 
                 self.print_log(loss, i, start_time)
 
-            if (i + 1) % self.validation_step == 0:
+            if (i + 1) % self.validation_step == 0 and self.evaluator != None:
                 print("--- Now Star Validation ---")
                 tmp_trans, tmp_trans_ = 0.0, 0.0
                 for i in range(self.num_valid):
@@ -304,109 +293,15 @@ class Solver(object):
 
             if (i + 2) % self.log_step == 0:
                 os.system("cls||clear")
-
-        with open(f"{self.model_name}_gan_result.csv", "w", newline="") as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(
-                torch.arange(
-                    self.validation_step,
-                    self.num_iters + self.validation_step,
-                    self.validation_step,
-                ).numpy()
-            )
-            writer.writerow(res_trans)
-            writer.writerow(res_trans_)
-
-
-# Common JSON config
-json_config = json.load(open("config.json"))
-
-
-class EConfig:
-    def __init__(self, data_dir, device):
-        self.root = data_dir
-        self.device = device
-        # from config.json
-        self.num_speaker = json_config["eval_speaker"]
-        self.batch_size = json_config["batch_size"]
-        self.erroment_num = json_config["erroment_num"]
-        self.max_uttr_idx = json_config["num_uttr"] - 1
-        self.len_crop = json_config["len_crop"]
-        self.embedder = None  # torch.load("model/static/dv_vctk80.pt").to(self.device)
-        self.pick_speaker = sorted(
-            next(iter(os.walk(self.root)))[1][: self.num_speaker]
-        )
-        self.metadata = pickle.load(open(f"{self.root}/train.pkl", "rb"))
-
-
-class Config:
-    def __init__(
-        self, model_name, data_dir, device, isadain, evaluator,
-    ):
-        self.model_name = model_name
-        self.device = device
-        self.data_dir = data_dir
-        self.isadain = isadain
-
-        # from config.json
-        self.num_iters = json_config["num_iters"]
-        self.validation_step = json_config["validation_step"]
-        self.scheduler_step = json_config["scheduler_step"]
-        self.num_speaker = json_config["num_speaker"]
-        self.lambda_cd = json_config["lambda_cd"]
-        self.lambda_cls = json_config["lambda_cls"]
-        self.lambda_dis = json_config["lambda_dis"]
-        self.n_critic = json_config["n_critic"]
-        self.batch_size = json_config["batch_size"]
-        self.len_crop = json_config["len_crop"]
-        self.dim_neck = json_config["dim_neck"]
-        self.dim_emb = json_config["dim_emb"]
-        self.dim_pre = json_config["dim_pre"]
-        self.freq = json_config["freq"]
-        self.num_valid = json_config["num_valid"]
-        self.log_step = json_config["log_step"]
-        # eval
-        self.evaluator = evaluator
-        # other
-        self.pretrained_step = int(self.num_iters / 10)
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--model_name", required=True)
-    parser.add_argument("--save_model_name", required=True)
-    parser.add_argument("--data_dir", default="train_spmel_vctk80", required=False)
-    parser.add_argument("--device", default="cuda:0", required=False)
-    parser.add_argument("--is_adain", default=False, required=False)
-
-    args = parser.parse_args()
-    econfig = EConfig(data_dir=args.data_dir, device=args.device,)
-    config = Config(
-        model_name=args.model_name,
-        data_dir=args.data_dir,
-        device=args.device,
-        isadain=bool(args.is_adain),
-        evaluator=Evaluator(econfig),
-    )
-
-    print(" --- Use Config  ---")
-    print(f" Lambda cd ---  {config.lambda_cd}")
-    print(f" Lambda cls --- {config.lambda_cls}")
-    print(f" Lambda dis--- {config.lambda_dis}")
-    print(f" N critic --- {config.n_critic }")
-    print(f" Use Adain --- {config.isadain }")
-    print(f" VC Pretrained step  --- {config.pretrained_step  }")
-    print(" ----------------------")
-
-    # 加速 conv，conv 的輸入 size 不會變的話開這個會比較快
-    cudnn.benchmark = True
-    # Data loader.
-    vcc_loader = get_loader(
-        config.data_dir,
-        dim_neck=config.dim_neck,
-        batch_size=config.batch_size,
-        len_crop=config.len_crop,
-    )
-    solver = Solver(vcc_loader, config)
-    solver.train()
-    torch.save(solver.VC.state_dict(), f"{args.save_model_name}.pt")
+        if self.evaluator != None:
+            with open(f"{self.model_name}_gan_result.csv", "w", newline="") as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(
+                    torch.arange(
+                        self.validation_step,
+                        self.num_iters + self.validation_step,
+                        self.validation_step,
+                    ).numpy()
+                )
+                writer.writerow(res_trans)
+                writer.writerow(res_trans_)
