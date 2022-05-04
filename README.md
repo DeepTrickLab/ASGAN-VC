@@ -12,8 +12,8 @@ The pre-trained model is trained by 913 speaker with 53 utterances , Download th
 
 | Model | LstmDV | MetaDV |
 | ----- | ------ | ------ |
-| EER   | 8.68%  |      |
-| AUC   | 97.05% |     |
+| EER   | 8.68%  | 5.75%  |
+| AUC   | 97.05% | 98.81% |
 
 ### For VC Evaluate with thirdparty
 
