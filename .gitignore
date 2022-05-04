@@ -2,6 +2,7 @@
 .vs
 __pycache__
 play_ground.ipynb
+*.txt
 *.wav
 *.pt
 *.zip

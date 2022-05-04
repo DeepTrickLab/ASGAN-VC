@@ -205,11 +205,7 @@ class AutoVC3(nn.Module):
         self.postnet = Postnet()
 
     def forward(
-        self,
-        x,
-        c_org,
-        c_trg,
-        target_feature=None,
+        self, x, c_org, c_trg, target_feature=None,
     ):
 
         codes, features = self.encoder(x, c_org)

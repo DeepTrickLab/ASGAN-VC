@@ -14,6 +14,7 @@ if __name__ == "__main__":
     parser.add_argument("--model_name", required=True)
     parser.add_argument("--save_model_name", required=True)
     parser.add_argument("--data_dir", required=True)
+    parser.add_argument("--use_config", default="neck32", required=False)
     parser.add_argument("--device", default="cuda:0", required=False)
     parser.add_argument("--is_adain", default=False, required=False)
     parser.add_argument(
@@ -29,7 +30,7 @@ if __name__ == "__main__":
         help="Set True if you want to validate when training",
     )
     args = parser.parse_args()
-    json_config = json.load(open(f"config/test_config.json"))
+    json_config = json.load(open(f"config/{args.use_config}.json"))
 
     class Config:
         def __init__(
