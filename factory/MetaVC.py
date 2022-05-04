@@ -212,12 +212,12 @@ class Decoder(nn.Module):
         self.posnet = Postnet()
 
     def forward(self, x, features):
-        x = self.gru_1(x)
+        x, _ = self.gru_1(x)
         x = x.transpose(1, 2)
         for metablock in self.metablock:
             x = metablock(x)
         x = x.transpose(1, 2)
-        x = self.gru_2(x)
+        x, _ = self.gru_2(x)
         x = self.linear(x)
         mel_outputs_postnet = x + self.posnet(x.transpose(1, 2), features).transpose(
             1, 2
