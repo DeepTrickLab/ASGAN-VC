@@ -115,7 +115,18 @@ def get_ytrue_yscore(cos_res):
 
 
 if __name__ == "__main__":
-    json_config = json.load(open("config.json"))
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--root_dir", default="train_spmel_vctk80", required=False)
+    parser.add_argument("--use_config", default="neck32", required=False)
+    parser.add_argument("--is_adain", default=False)
+    parser.add_argument("--is_vq", default=False)
+    parser.add_argument("--is_againvc", default=False)
+    parser.add_argument("--model_name", required=True)
+    parser.add_argument("--pt_name", required=True)
+    args = parser.parse_args()
+
+    json_config = json.load(open(f"config/{args.use_config}.json"))
     num_speaker = json_config["num_speaker"]
     erroment_num = json_config["erroment_num"]
     num_valid = json_config["num_valid"]
@@ -123,17 +134,8 @@ if __name__ == "__main__":
     dim_emb = json_config["dim_emb"]
     dim_pre = json_config["dim_pre"]
     freq = json_config["freq"]
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--root_dir", default="train_spmel_vctk80", required=False)
-    parser.add_argument("--is_adain", default=False)
-    parser.add_argument("--is_vq", default=False)
-    parser.add_argument("--is_againvc", default=False)
-    parser.add_argument("--model_name", required=True)
-    parser.add_argument("--pt_name", required=True)
 
-    args = parser.parse_args()
-
-    ROOT = "train_spmel_vctk80"
+    ROOT = args.root_dir
     embedder = DeepSpeakerModel()
     embedder.m.load_weights(
         f"thirdparty/DeepSpeaker/model/ResCNN_triplet_training_checkpoint_265.h5",

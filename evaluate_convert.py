@@ -40,7 +40,7 @@ if __name__ == "__main__":
     parser.add_argument("--pt_name", required=True)
     args = parser.parse_args()
 
-    json_config = json.load(open(f"{args.config}.json"))
+    json_config = json.load(open(f"config/{args.use_config}.json"))
     dim_neck = json_config["dim_neck"]
     dim_emb = json_config["dim_emb"]
     dim_pre = json_config["dim_pre"]
