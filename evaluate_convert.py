@@ -13,9 +13,6 @@ from factory.MetaDV import MetaDV
 from sklearn.metrics import auc
 
 
-json_config = json.load(open("config.json"))
-
-
 class EConfig:
     def __init__(self, data_dir, embedder):
         self.root = data_dir
@@ -32,20 +29,24 @@ class EConfig:
 
 
 if __name__ == "__main__":
-    dim_neck = json_config["dim_neck"]
-    dim_emb = json_config["dim_emb"]
-    dim_pre = json_config["dim_pre"]
-    freq = json_config["freq"]
-    num_valid = json_config["num_valid"]
+
     parser = argparse.ArgumentParser()
     parser.add_argument("--root_dir", default="train_spmel_vctk80", required=False)
+    parser.add_argument("--use_config", default="neck32", required=False)
     parser.add_argument("--is_adain", default=False)
     parser.add_argument("--is_vq", default=False)
     parser.add_argument("--is_againvc", default=False)
     parser.add_argument("--model_name", required=True)
     parser.add_argument("--pt_name", required=True)
-
     args = parser.parse_args()
+
+    json_config = json.load(open(f"{args.config}.json"))
+    dim_neck = json_config["dim_neck"]
+    dim_emb = json_config["dim_emb"]
+    dim_pre = json_config["dim_pre"]
+    freq = json_config["freq"]
+    num_valid = json_config["num_valid"]
+
     # modify embedder here
     C = LstmDV(913).to("cuda:0")
     # C = MetaDV(80, 256).to("cuda:0")

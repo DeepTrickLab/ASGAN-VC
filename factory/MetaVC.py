@@ -65,10 +65,8 @@ class Encoder(nn.Module):
                 )
             )
         self.metablock = nn.Sequential(*metablock)
-        self.down_mlp_1 = MLPMixer(in_chans=512, out_chans=256, seq_len=128, depth=1)
-        self.down_mlp_2 = MLPMixer(in_chans=256, out_chans=128, seq_len=128, depth=1)
-        self.down_mlp_3 = MLPMixer(
-            in_chans=128, out_chans=2 * dim_neck, seq_len=128, depth=1
+        self.gru = nn.GRU(
+            2 * dim_emb, dim_neck, 2, batch_first=True, bidirectional=True
         )
 
     def forward(self, x, c_org):
@@ -89,10 +87,8 @@ class Encoder(nn.Module):
         x = self.embedding(x)
         for metablock in self.metablock:
             x = metablock(x)
-        x = self.down_mlp_1(x)
-        x = self.down_mlp_2(x)
-        x = self.down_mlp_3(x)
-        outputs = x.transpose(1, 2)
+        x = x.transpose(1, 2)
+        outputs, _ = self.gru(x)
         out_forward = outputs[:, :, : self.dim_neck]
         out_backward = outputs[:, :, self.dim_neck :]
         codes = []
