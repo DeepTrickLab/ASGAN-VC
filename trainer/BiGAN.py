@@ -68,9 +68,6 @@ class Solver(object):
         self.VC.to(self.device)
 
         # 拿來分類轉換後聲音的，算 speaker embedding 之間的 cos-similiarty 或 MSE
-        self.C.load_state_dict(
-            torch.load(self.pretrained_embedder_path, map_location=self.device)
-        )
         self.c_optimizer = torch.optim.Adam(self.C.parameters(), 0.0001)
         self.C.to(self.device)
 
