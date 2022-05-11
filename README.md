@@ -1,4 +1,4 @@
-# MetaVC
+# ASGAN-VC
 
 ## Speaker Embedding 
 
