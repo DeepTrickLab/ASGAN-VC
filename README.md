@@ -49,9 +49,9 @@ We use MelGan pre-trained model(multi_speaker.pt) to generate waveform from mel,
 
 #### Available Model
 
-- AutoVC  (Original Implement)
-- AutoVC2 (Original Implement + Adain)
-- AutoVC3 (Original Implement + Modulated Conv)
+- AutoVC  
+- ASGANVC 
+- ASGANVC_AdaIN
 
 #### Available Taining Method
 
@@ -60,9 +60,14 @@ We use MelGan pre-trained model(multi_speaker.pt) to generate waveform from mel,
 - BiGAN
 - SNGAN
 
-#### Training Config
+#### Training Config (static)
 
+- check the json file in ./config
+
+#### Training Config (dynamic)
+      
     --model_name:str, VC structure from factory
+    --use_config:str, VC static config in ./config
     --save_model_name: str, name of saving model after training 
     --data_dir:str, your training dir path 
     --method:str, training method from trainer,defalut is Original

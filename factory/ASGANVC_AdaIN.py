@@ -202,9 +202,9 @@ class Postnet(nn.Module):
         return x
 
 
-class AutoVC2(nn.Module):
+class ASGANVC_AdaIN(nn.Module):
     def __init__(self, dim_neck, dim_emb, dim_pre, freq):
-        super(AutoVC2, self).__init__()
+        super(ASGANVC_AdaIN, self).__init__()
         self.encoder = Encoder(dim_neck, dim_emb, freq)
         self.decoder = Decoder(dim_neck, dim_emb, dim_pre)
         self.postnet = Postnet()
