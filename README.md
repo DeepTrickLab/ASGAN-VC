@@ -4,7 +4,7 @@
 
 ### For VC training
 
-Train your own Speaker Embedding [here](https://github.com/licaiwang/d-vector) or use my pre-trained model [here](https://drive.google.com/file/d/1nF-nq4vb3PGOFp04iN2IC8jKVFeGCE5I/view?usp=sharing) with MetaDV
+Train your own Speaker Embedding [here](https://github.com/licaiwang/metadv) or use my pre-trained model [here](https://drive.google.com/file/d/1nF-nq4vb3PGOFp04iN2IC8jKVFeGCE5I/view?usp=sharing) with MetaDV
 
 ### For VC Evaluate
 
