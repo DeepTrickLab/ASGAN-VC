@@ -78,4 +78,11 @@ We use MelGan pre-trained model(multi_speaker.pt) to generate waveform from mel,
 #### Example
 
     python train.py --model_name=AutoVC --save_model_name=model_name --data_dir=spmel
+    
+### Pre-trained Model
+
+[For dim-neck 32](https://drive.google.com/drive/folders/1wVFHNO09y10WSuS6mBhF_-vNrYex7PGW?usp=sharing)
+[For dim-neck 44](https://drive.google.com/drive/folders/1dk0UjiDGWCEDYoaTM4MMv_RJOkQP7MGZ?usp=sharing)
+
+
 
